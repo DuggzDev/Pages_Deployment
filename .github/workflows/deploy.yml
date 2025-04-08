@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    # paths:
-    #   - "index.html"  
+    paths:
+      - "Pages_Deployment/index.html"  
     branches:
       - main  
 
