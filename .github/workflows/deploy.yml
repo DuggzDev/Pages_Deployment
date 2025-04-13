@@ -1,32 +1,28 @@
-name: Deploy to GitHub Pages
+name: Deploy Index.html to GitHub Pages
+
 on:
-    push:
-        paths: 
-            - 'index.html'
-        branches: 
-            - main
-            - gh-pages
-permissions:
-  contents: write
+  push:
+    paths:
+      - 'index.html'
 
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+
+      - name: Set up Node.js (optional)
+        uses: actions/setup-node@v3
         with:
-           github_token: ${{ secrets.GITHUB_TOKEN }}
-           publish_dir: ./build # Replace 'build' with your output directory
+          node-version: '18'
 
-
-    #   - name: Deploy 🚀
-    #     uses: JamesIves/github-pages-deploy-action@v4
-    #     with:
-    #       folder: build # The folder the action should deploy.
-
-      
-    
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git checkout --orphan gh-pages
+          git add index.html
+          git commit -m "Deploy index.html"
+          git push --force origin gh-pages
