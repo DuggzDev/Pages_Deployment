@@ -4,7 +4,6 @@ on:
         paths: 
             - 'index.html'
         branches: 
-            - main
             - gh-pages
 permissions:
   contents: write
